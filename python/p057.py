@@ -73,6 +73,41 @@ class Solution(object):
         """
         return ans
 
+# Definition for an interval.
+# class Interval(object):
+#     def __init__(self, s=0, e=0):
+#         self.start = s
+#         self.end = e
+
+class Solution(object):
+    def insert(self, intervals, newInterval):
+        """
+        :type intervals: List[Interval]
+        :type newInterval: Interval
+        :rtype: List[Interval]
+        """
+        n = len(intervals)
+        if n == 0:
+            return [newInterval]
+        ans = []
+        inserted = False
+        for intv in intervals:
+            if inserted:
+                ans.append(intv)
+            elif intv.end < newInterval.start:
+                ans.append(intv)
+            elif intv.start > newInterval.end:
+                ans.append(newInterval)
+                ans.append(intv)
+                inserted = True
+            else:
+                newInterval.start = min(newInterval.start, intv.start)
+                newInterval.end = max(newInterval.end, intv.end)
+        if not inserted:
+            ans.append(newInterval)
+        return ans
+            
+            
 if __name__ == "__main__":
 	a = Solution()
 	intv = [Interval(1,3), Interval(6,9)]
